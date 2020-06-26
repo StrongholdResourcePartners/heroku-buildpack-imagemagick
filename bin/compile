@@ -4,14 +4,17 @@ indent() {
   sed -u 's/^/       /'
 }
 
-echo "-----> Install ImageMagick"
-
 BUILD_DIR=$1
 CACHE_DIR=$2
 VENDOR_DIR="$BUILD_DIR/vendor"
 INSTALL_DIR="$VENDOR_DIR/imagemagick"
+if [ -f "$BUILD_DIR/.image-magick-version" ]; then
+  IMAGE_MAGICK_VERSION=$(cat "$BUILD_DIR/.image-magick-version")
+fi
 IMAGE_MAGICK_VERSION="${IMAGE_MAGICK_VERSION:-7.0.10-19}"
 CACHE_FILE="$CACHE_DIR/imagemagick-$IMAGE_MAGICK_VERSION.tar.gz"
+
+echo "-----> Install ImageMagick $IMAGE_MAGICK_VERSION"
 
 if [ ! -f $CACHE_FILE ]; then
   # install imagemagick
